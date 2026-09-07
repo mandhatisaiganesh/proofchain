@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'ProofChain - AWS Production Infrastructure (S3, DynamoDB, Bedrock IAM Roles, ECS)'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: 'production'
+    AllowedValues:
+      - 'production'
+      - 'staging'
+      - 'development'
+    Description: 'Deployment environment identifier'
+
+Resources:
+  # ─── 1. S3 Document Vault with AES-256 and Public Access Block ───
+  DocumentVaultBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'proofchain-vault-${AWS::AccountId}-${Environment}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: Enabled
+
+  # ─── 2. DynamoDB Single-Table State Store ───
+  StateTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub 'proofchain-state-${Environment}'
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  # ─── 3. IAM Role for Strands Agents & Amazon Bedrock Access ───
+  ProofChainAgentRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub 'proofchain-agent-execution-role-${Environment}'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+                - bedrock.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: BedrockInvokePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - bedrock:InvokeModel
+                  - bedrock:InvokeModelWithResponseStream
+                  - bedrock:ListFoundationModels
+                Resource: '*'
+        - PolicyName: S3DocumentAccessPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:ListBucket
+                Resource:
+                  - !GetAtt DocumentVaultBucket.Arn
+                  - !Sub '${DocumentVaultBucket.Arn}/*'
+        - PolicyName: DynamoDBStateAccessPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                Resource: !GetAtt StateTable.Arn
+
+Outputs:
+  DocumentVaultBucketName:
+    Description: 'S3 Document Vault Bucket Name'
+    Value: !Ref DocumentVaultBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-VaultBucket'
+
+  StateTableName:
+    Description: 'DynamoDB State Table Name'
+    Value: !Ref StateTable
+    Export:
+      Name: !Sub '${AWS::StackName}-StateTable'
+
+  AgentRoleArn:
+    Description: 'IAM Role ARN for Strands Bedrock Agents'
+    Value: !GetAtt ProofChainAgentRole.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-AgentRoleArn'
