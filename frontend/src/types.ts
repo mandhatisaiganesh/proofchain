@@ -76,11 +76,20 @@ export interface CommitmentDetail {
 
 export interface Conflict {
   id: string;
-  description: string;
+  commitment_id?: string;
+  requirement_text?: string;
+  requirement_source?: string;
+  evidence_text?: string;
+  evidence_source?: string;
+  conflict_type?: string;
   severity: string;
-  commitment_ids: string[];
-  evidence_ids: string[];
-  resolution_suggestion: string;
+  can_claim_compliance?: boolean;
+  recommendation?: string;
+  resolution_options?: string[];
+  description?: string;
+  commitment_ids?: string[];
+  evidence_ids?: string[];
+  resolution_suggestion?: string;
 }
 
 export interface Risk {

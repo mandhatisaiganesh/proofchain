@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 850" width="1100" height="850" style="background:#090d16; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#4338ca" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="warnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="awsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9900" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Title Header -->
+  <text x="550" y="45" text-anchor="middle" fill="#f8fafc" font-size="24" font-weight="700" letter-spacing="1">PROOFCHAIN SYSTEM ARCHITECTURE</text>
+  <text x="550" y="70" text-anchor="middle" fill="#94a3b8" font-size="14">Evidence-Grounded Commitment Intelligence Platform on AWS &amp; Amazon Bedrock</text>
+
+  <!-- User / Client Layer -->
+  <rect x="50" y="100" width="1000" height="95" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#shadow)" />
+  <text x="75" y="125" fill="#38bdf8" font-size="12" font-weight="700" letter-spacing="1">1. PRESENTATION LAYER (REACT 18 + TYPESCRIPT + VITE)</text>
+  
+  <rect x="75" y="140" width="210" height="42" rx="6" fill="#1e293b" stroke="#475569" />
+  <text x="180" y="165" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Executive Dashboard</text>
+
+  <rect x="305" y="140" width="220" height="42" rx="6" fill="#1e293b" stroke="#475569" />
+  <text x="415" y="165" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Bipartite Commitment Graph</text>
+
+  <rect x="545" y="140" width="230" height="42" rx="6" fill="#1e293b" stroke="#475569" />
+  <text x="660" y="165" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Cross-Doc Conflict Inspector</text>
+
+  <rect x="795" y="140" width="230" height="42" rx="6" fill="#1e293b" stroke="#6366f1" />
+  <text x="910" y="165" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="600">Human-in-the-Loop Center</text>
+
+  <!-- Connector Arrow -->
+  <line x1="550" y1="195" x2="550" y2="230" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="4 4"/>
+  <polygon points="545,225 550,235 555,225" fill="#6366f1" />
+
+  <!-- API Gateway Layer -->
+  <rect x="50" y="235" width="1000" height="85" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#shadow)" />
+  <text x="75" y="260" fill="#a855f7" font-size="12" font-weight="700" letter-spacing="1">2. BACKEND API GATEWAY (FASTAPI + PYDANTIC V2)</text>
+  
+  <rect x="75" y="275" width="210" height="35" rx="6" fill="#1e293b" stroke="#475569" />
+  <text x="180" y="297" text-anchor="middle" fill="#cbd5e1" font-size="11">Workspaces &amp; Ingestion API</text>
+
+  <rect x="305" y="275" width="220" height="35" rx="6" fill="#1e293b" stroke="#475569" />
+  <text x="415" y="297" text-anchor="middle" fill="#cbd5e1" font-size="11">Commitments &amp; Graph API</text>
+
+  <rect x="545" y="275" width="230" height="35" rx="6" fill="#1e293b" stroke="#475569" />
+  <text x="660" y="297" text-anchor="middle" fill="#cbd5e1" font-size="11">Conflicts &amp; Risk API</text>
+
+  <rect x="795" y="275" width="230" height="35" rx="6" fill="#1e293b" stroke="#475569" />
+  <text x="910" y="297" text-anchor="middle" fill="#cbd5e1" font-size="11">Actions Approval &amp; Scenarios</text>
+
+  <!-- Connector Arrow -->
+  <line x1="550" y1="320" x2="550" y2="355" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="4 4"/>
+  <polygon points="545,350 550,360 555,350" fill="#6366f1" />
+
+  <!-- Multi-Agent Strands Layer -->
+  <rect x="50" y="360" width="1000" height="190" rx="10" fill="url(#cardGrad)" stroke="#4f46e5" stroke-width="2" filter="url(#shadow)" />
+  <text x="75" y="385" fill="#818cf8" font-size="12" font-weight="700" letter-spacing="1">3. STRANDS MULTI-AGENT CLUSTER (AMAZON BEDROCK AGENTCORE)</text>
+  
+  <rect x="75" y="405" width="950" height="36" rx="6" fill="url(#primaryGrad)" />
+  <text x="550" y="428" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">Orchestrator Agent (DAG Lifecycle &amp; Scratchpad Coordinator)</text>
+
+  <!-- Specialist Agents Grid -->
+  <rect x="75" y="455" width="220" height="40" rx="6" fill="#0f172a" stroke="#334155" />
+  <text x="185" y="480" text-anchor="middle" fill="#f8fafc" font-size="11">📋 Requirement Strand</text>
+
+  <rect x="315" y="455" width="220" height="40" rx="6" fill="#0f172a" stroke="#334155" />
+  <text x="425" y="480" text-anchor="middle" fill="#f8fafc" font-size="11">🤝 Commitment Strand</text>
+
+  <rect x="555" y="455" width="220" height="40" rx="6" fill="#0f172a" stroke="#334155" />
+  <text x="665" y="480" text-anchor="middle" fill="#f8fafc" font-size="11">🔍 Evidence Verifier Strand</text>
+
+  <rect x="795" y="455" width="230" height="40" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+  <text x="910" y="480" text-anchor="middle" fill="#fca5a5" font-size="11">⚡ Conflict &amp; Contradiction</text>
+
+  <rect x="75" y="505" width="220" height="35" rx="6" fill="#0f172a" stroke="#334155" />
+  <text x="185" y="527" text-anchor="middle" fill="#94a3b8" font-size="11">⚙️ Capability Analyzer</text>
+
+  <rect x="315" y="505" width="220" height="35" rx="6" fill="#0f172a" stroke="#334155" />
+  <text x="425" y="527" text-anchor="middle" fill="#94a3b8" font-size="11">⚠️ Quantitative Risk Strand</text>
+
+  <rect x="555" y="505" width="220" height="35" rx="6" fill="#0f172a" stroke="#334155" />
+  <text x="665" y="527" text-anchor="middle" fill="#94a3b8" font-size="11">🛠️ Remediation Action Strand</text>
+
+  <rect x="795" y="505" width="230" height="35" rx="6" fill="#0f172a" stroke="#334155" />
+  <text x="910" y="527" text-anchor="middle" fill="#94a3b8" font-size="11">🔄 Invalidation Cascade Engine</text>
+
+  <!-- Connectors from Agents to Core & AWS -->
+  <line x1="250" y1="550" x2="250" y2="585" stroke="#38bdf8" stroke-width="2" />
+  <line x1="550" y1="550" x2="550" y2="585" stroke="#a855f7" stroke-width="2" />
+  <line x1="850" y1="550" x2="850" y2="585" stroke="#ff9900" stroke-width="2" />
+
+  <!-- Bipartite Core & AWS Infrastructure -->
+  <rect x="50" y="590" width="480" height="150" rx="10" fill="url(#cardGrad)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)" />
+  <text x="75" y="615" fill="#38bdf8" font-size="12" font-weight="700" letter-spacing="1">4. COMMITMENT INTELLIGENCE &amp; GRAPH CORE</text>
+  
+  <rect x="75" y="630" width="205" height="42" rx="6" fill="#0f172a" stroke="#0369a1" />
+  <text x="177" y="650" text-anchor="middle" fill="#bae6fd" font-size="11" font-weight="600">Commitment Nodes (Vc)</text>
+  <text x="177" y="663" text-anchor="middle" fill="#7dd3fc" font-size="9">SLAs, Warranties, Obligations</text>
+
+  <rect x="300" y="630" width="210" height="42" rx="6" fill="#0f172a" stroke="#059669" />
+  <text x="405" y="650" text-anchor="middle" fill="#a7f3d0" font-size="11" font-weight="600">Evidence Nodes (Ve)</text>
+  <text x="405" y="663" text-anchor="middle" fill="#6ee7b7" font-size="9">Architectures, Audits, Policies</text>
+
+  <rect x="75" y="685" width="435" height="40" rx="6" fill="#1e293b" stroke="#334155" />
+  <text x="292" y="705" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">Sub-5ms Invalidation Cascade Engine (BFS Directed Traversal)</text>
+  <text x="292" y="718" text-anchor="middle" fill="#94a3b8" font-size="9">Dynamically propagates failure states from evidence to dependent commitments</text>
+
+  <!-- AWS Cloud Services -->
+  <rect x="560" y="590" width="490" height="150" rx="10" fill="url(#cardGrad)" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)" />
+  <text x="585" y="615" fill="#fb923c" font-size="12" font-weight="700" letter-spacing="1">5. AWS SERVERLESS CLOUD INFRASTRUCTURE</text>
+  
+  <rect x="585" y="630" width="215" height="42" rx="6" fill="#0f172a" stroke="#c2410c" />
+  <text x="692" y="650" text-anchor="middle" fill="#fed7aa" font-size="11" font-weight="600">Amazon S3 Document Vault</text>
+  <text x="692" y="663" text-anchor="middle" fill="#fdba74" font-size="9">AES-256 Encrypted &amp; Private</text>
+
+  <rect x="815" y="630" width="215" height="42" rx="6" fill="#0f172a" stroke="#c2410c" />
+  <text x="922" y="650" text-anchor="middle" fill="#fed7aa" font-size="11" font-weight="600">Amazon DynamoDB State Store</text>
+  <text x="922" y="663" text-anchor="middle" fill="#fdba74" font-size="9">Single-Table Pay-Per-Request</text>
+
+  <rect x="585" y="685" width="215" height="40" rx="6" fill="#0f172a" stroke="#4f46e5" />
+  <text x="692" y="705" text-anchor="middle" fill="#c7d2fe" font-size="11" font-weight="600">Amazon Bedrock Models</text>
+  <text x="692" y="718" text-anchor="middle" fill="#a5b4fc" font-size="9">Claude 3.5 Sonnet / Haiku</text>
+
+  <rect x="815" y="685" width="215" height="40" rx="6" fill="#0f172a" stroke="#059669" />
+  <text x="922" y="705" text-anchor="middle" fill="#a7f3d0" font-size="11" font-weight="600">CloudWatch Observability</text>
+  <text x="922" y="718" text-anchor="middle" fill="#6ee7b7" font-size="9">Latency, Invocations, Traces</text>
+
+  <!-- Footer Guarantees -->
+  <rect x="50" y="760" width="1000" height="60" rx="8" fill="#0b1120" stroke="#1e293b" />
+  <text x="550" y="785" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">CORE GUARANTEES: 100% Deterministic Provenance • Zero Hallucinations • Sub-Second Cascade • Human-in-the-Loop Authorization</text>
+  <text x="550" y="805" text-anchor="middle" fill="#64748b" font-size="10">Built for AWS Agents for Humans Hackathon • Track: Professional Agents</text>
+</svg>

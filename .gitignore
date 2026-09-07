@@ -73,3 +73,10 @@ dist-ssr/
 data/uploads/
 *.sqlite
 *.db
+cdk.out/
+.cli/
+agentcore/**/node_modules/
+agentcore/**/cdk.out/
+agentcore/**/.cli/
+
+

@@ -14,47 +14,117 @@ const SEVERITY_BADGE: Record<string, string> = {
 };
 
 function ConflictCard({ conflict }: { conflict: Conflict }) {
+  const isComplianceProhibited = conflict.can_claim_compliance === false;
+
   return (
-    <div className="conflict-card">
+    <div className="conflict-card" style={{ borderLeft: isComplianceProhibited ? '4px solid var(--red)' : undefined }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <AlertTriangle size={15} style={{ color: 'var(--red)', flexShrink: 0 }} />
+          <AlertTriangle size={16} style={{ color: 'var(--red)', flexShrink: 0 }} />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>{conflict.id}</span>
+          {conflict.conflict_type && (
+            <span className="badge badge-gray" style={{ fontSize: 10 }}>{conflict.conflict_type}</span>
+          )}
         </div>
-        <span className={`badge ${SEVERITY_BADGE[conflict.severity] ?? 'badge-gray'}`}>
-          {conflict.severity}
-        </span>
-      </div>
-
-      <p style={{ fontSize: 14, color: 'var(--text-primary)', fontWeight: 500, marginBottom: 10, lineHeight: 1.5 }}>
-        {conflict.description}
-      </p>
-
-      <div style={{ marginBottom: 12 }}>
-        <div className="text-xs text-muted" style={{ marginBottom: 6 }}>AFFECTED COMMITMENTS</div>
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          {conflict.commitment_ids.map(id => (
-            <span key={id} className="badge badge-indigo" style={{ fontFamily: 'var(--font-mono)', fontSize: 10 }}>
-              {id}
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          {isComplianceProhibited && (
+            <span className="badge badge-red" style={{ fontWeight: 700, letterSpacing: '0.04em' }}>
+              ⛔ DO NOT CLAIM COMPLIANCE
             </span>
-          ))}
+          )}
+          <span className={`badge ${SEVERITY_BADGE[conflict.severity] ?? 'badge-gray'}`}>
+            {conflict.severity}
+          </span>
         </div>
       </div>
 
-      {conflict.resolution_suggestion && (
+      {isComplianceProhibited && (
+        <div style={{
+          background: 'rgba(239, 68, 68, 0.1)',
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+          borderRadius: 'var(--radius-sm)',
+          padding: '8px 12px',
+          marginBottom: 14,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          color: '#f87171',
+          fontSize: 12,
+          fontWeight: 600,
+        }}>
+          <span>⚠️ CONTRADICTION DETECTED: Internal operational evidence directly conflicts with contractual promise. Under Federal False Claims and SLA provisions, do not certify compliance until mitigated.</span>
+        </div>
+      )}
+
+      {/* Requirement vs Evidence Comparison */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12, marginBottom: 14 }}>
+        <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', padding: '10px 12px', border: '1px solid var(--border)' }}>
+          <div className="text-xs text-muted" style={{ fontWeight: 600, marginBottom: 4, display: 'flex', justifyContent: 'space-between' }}>
+            <span>PROMISED REQUIREMENT</span>
+            <span style={{ color: 'var(--accent-blue)', fontFamily: 'var(--font-mono)' }}>{conflict.requirement_source || 'Contract / RFP'}</span>
+          </div>
+          <p style={{ fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.5, margin: 0 }}>
+            "{conflict.requirement_text || conflict.description}"
+          </p>
+        </div>
+
+        <div style={{ background: 'rgba(239, 68, 68, 0.04)', borderRadius: 'var(--radius-sm)', padding: '10px 12px', border: '1px solid rgba(239, 68, 68, 0.2)' }}>
+          <div className="text-xs text-muted" style={{ fontWeight: 600, marginBottom: 4, display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ color: 'var(--red)' }}>CONTRADICTORY EVIDENCE</span>
+            <span style={{ color: 'var(--red)', fontFamily: 'var(--font-mono)' }}>{conflict.evidence_source || 'Internal Evidence'}</span>
+          </div>
+          <p style={{ fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.5, margin: 0 }}>
+            "{conflict.evidence_text || 'Internal records indicate capability is business-hours only or uncertified.'}"
+          </p>
+        </div>
+      </div>
+
+      {(conflict.commitment_ids && conflict.commitment_ids.length > 0) ? (
+        <div style={{ marginBottom: 12 }}>
+          <div className="text-xs text-muted" style={{ marginBottom: 6 }}>AFFECTED COMMITMENTS</div>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {conflict.commitment_ids.map(id => (
+              <span key={id} className="badge badge-indigo" style={{ fontFamily: 'var(--font-mono)', fontSize: 10 }}>
+                {id}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : conflict.commitment_id ? (
+        <div style={{ marginBottom: 12 }}>
+          <div className="text-xs text-muted" style={{ marginBottom: 6 }}>AFFECTED COMMITMENT</div>
+          <span className="badge badge-indigo" style={{ fontFamily: 'var(--font-mono)', fontSize: 10 }}>
+            {conflict.commitment_id}
+          </span>
+        </div>
+      ) : null}
+
+      {(conflict.recommendation || conflict.resolution_suggestion) && (
         <div style={{
           background: 'rgba(99,102,241,0.06)',
           border: '1px solid var(--border-accent)',
           borderRadius: 'var(--radius-md)',
           padding: '10px 14px',
+          marginBottom: conflict.resolution_options?.length ? 10 : 0
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
             <Zap size={12} style={{ color: 'var(--indigo-light)' }} />
-            <span className="text-xs" style={{ color: 'var(--indigo-light)', fontWeight: 600 }}>SUGGESTED RESOLUTION</span>
+            <span className="text-xs" style={{ color: 'var(--indigo-light)', fontWeight: 600 }}>RECOMMENDED REMEDIATION</span>
           </div>
-          <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-            {conflict.resolution_suggestion}
+          <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.5, margin: 0 }}>
+            {conflict.recommendation || conflict.resolution_suggestion}
           </p>
+        </div>
+      )}
+
+      {conflict.resolution_options && conflict.resolution_options.length > 0 && (
+        <div style={{ padding: '8px 12px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
+          <div className="text-xs text-muted" style={{ fontWeight: 600, marginBottom: 6 }}>RESOLUTION OPTIONS:</div>
+          <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--text-secondary)' }}>
+            {conflict.resolution_options.map((opt, i) => (
+              <li key={i} style={{ marginBottom: 4 }}>{opt}</li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
