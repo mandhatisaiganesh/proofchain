@@ -13,7 +13,8 @@
 
 **An evidence-grounded autonomous professional agent that turns unstructured enterprise commitments into an immutable, mathematically verified bipartite graph of obligations, capabilities, and proofs.**
 
-[Devpost Submission](docs/devpost_submission.md) • [Live Demo Script](docs/demo_script.md) • [AWS Builder Article 1](docs/builder-aws/article_1_strands_architecture.md) • [AWS Builder Article 2](docs/builder-aws/article_2_evidence_graph.md)
+🌐 **[Live Demo](http://proofchain-web-117687871322.s3-website.ap-south-1.amazonaws.com)** • 💻 **[GitHub Repository](https://github.com/mandhatisaiganesh/proofchain)** • 📄 **[Devpost Submission](docs/devpost_submission.md)** • 🎬 **[Demo Video Script](docs/demo_script.md)** • 🏛️ **[Architecture Diagram](docs/architecture.svg)**  
+📚 **Builder Articles**: [1. Strands Architecture](docs/builder-aws/article_1_strands_architecture.md) • [2. Commitment Graph](docs/builder-aws/article_2_evidence_graph.md) • [3. AgentCore & HITL](docs/builder-aws/article_3_agentcore_verification.md)
 
 </div>
 
