@@ -163,8 +163,8 @@ export default function Commitments({ workspaceId }: Props) {
   );
 
   const filtered = (commitments ?? []).filter(c =>
-    c.title.toLowerCase().includes(search.toLowerCase()) ||
-    c.stakeholder?.toLowerCase().includes(search.toLowerCase()),
+    (c.title || (c as any).text || '').toLowerCase().includes(search.toLowerCase()) ||
+    (c.stakeholder || '').toLowerCase().includes(search.toLowerCase()),
   );
 
   const statuses = ['', 'VERIFIED', 'UNVERIFIED', 'CONFLICT'];

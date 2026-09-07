@@ -101,10 +101,23 @@ export default function Documents({ workspaceId }: Props) {
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<Document | null>(null);
 
-  const filtered = (docs ?? []).filter(d =>
-    d.title.toLowerCase().includes(search.toLowerCase()) ||
-    d.doc_type.toLowerCase().includes(search.toLowerCase()) ||
-    d.source.toLowerCase().includes(search.toLowerCase()),
+  const normalizedDocs = (docs ?? []).map(d => {
+    const raw = d as any;
+    return {
+      ...d,
+      title: d.title || raw.filename || d.id || 'Untitled Document',
+      doc_type: d.doc_type || raw.file_type || 'contract',
+      source: d.source || raw.s3_key || (raw.content_hash ? `sha256:${raw.content_hash.slice(0, 8)}` : 'workspace'),
+      content: d.content || raw.extracted_text || '',
+      chunk_count: d.chunk_count ?? raw.page_count ?? 1,
+      uploaded_at: d.uploaded_at || raw.uploaded_at || new Date().toISOString(),
+    };
+  });
+
+  const filtered = normalizedDocs.filter(d =>
+    (d.title || '').toLowerCase().includes(search.toLowerCase()) ||
+    (d.doc_type || '').toLowerCase().includes(search.toLowerCase()) ||
+    (d.source || '').toLowerCase().includes(search.toLowerCase()),
   );
 
   return (

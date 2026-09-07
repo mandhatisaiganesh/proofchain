@@ -90,9 +90,12 @@ function GraphCanvas({ graph }: { graph: GraphData }) {
   const lastMouse = useRef({ x: 0, y: 0 });
 
   // Limit nodes for performance
-  const nodes = graph.nodes.slice(0, 60);
+  const rawGraph = (graph as any)?.visualization || graph;
+  const rawNodes: GraphNode[] = rawGraph?.nodes || (graph as any)?.nodes || [];
+  const rawEdges = rawGraph?.edges || (graph as any)?.edges || [];
+  const nodes = rawNodes.slice(0, 60);
   const nodeSet = new Set(nodes.map(n => n.id));
-  const edges = graph.edges.filter(e => nodeSet.has(e.source) && nodeSet.has(e.target)).slice(0, 100);
+  const edges = rawEdges.filter((e: any) => nodeSet.has(e.source) && nodeSet.has(e.target)).slice(0, 100);
 
   const positions = useLayout(nodes, edges);
 
@@ -152,7 +155,7 @@ function GraphCanvas({ graph }: { graph: GraphData }) {
           </defs>
 
           {/* Edges */}
-          {edges.map(e => {
+          {edges.map((e: any) => {
             const s = positions[e.source];
             const t = positions[e.target];
             if (!s || !t) return null;
@@ -254,12 +257,14 @@ export default function Graph({ workspaceId }: Props) {
       </div>
 
       {/* Stats */}
-      {stats && (
+      {stats && typeof stats === 'object' && !Array.isArray(stats) && (
         <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
           {Object.entries(stats).map(([k, v]) => (
-            <span key={k} className="badge badge-gray" style={{ fontSize: 12 }}>
-              {k}: {v}
-            </span>
+            typeof v !== 'object' ? (
+              <span key={k} className="badge badge-gray" style={{ fontSize: 12 }}>
+                {k}: {String(v)}
+              </span>
+            ) : null
           ))}
         </div>
       )}

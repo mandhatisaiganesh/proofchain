@@ -54,6 +54,16 @@ function getMockFallback<T>(path: string, options?: RequestInit): T {
   if (path.includes('/documents')) {
     return DEMO_DATA.documents as unknown as T;
   }
+  if (path.includes('/graph/stats')) {
+    const rawGraph = (DEMO_DATA.graph as any)?.visualization || DEMO_DATA.graph;
+    const nodes: any[] = rawGraph?.nodes || [];
+    return {
+      'Total Nodes': nodes.length,
+      'Commitments': nodes.filter((n: any) => n.type === 'commitment' || n.type === 'COMMITMENT').length,
+      'Evidence': nodes.filter((n: any) => n.type === 'evidence' || n.type === 'EVIDENCE').length,
+      'Edges': (rawGraph?.edges || []).length,
+    } as unknown as T;
+  }
   if (path.includes('/graph')) {
     return DEMO_DATA.graph as unknown as T;
   }
